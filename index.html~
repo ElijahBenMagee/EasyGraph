@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<title>EasyGraph</title>
+<link rel="stylesheet" href="lib/style.css">
+
+<body>
+
+<script src="graph.js"></script>
+<script>
+
+var W = 1000
+var H = 500
+var buttonToggle = 4;
+
+var myGamePiece;
+
+function arrayMin(arr) {
+  var len = arr.length, min = Infinity;
+  while (len--) {
+    if (arr[len] < min) {
+      min = arr[len];
+    }
+  }
+  return min;
+};
+
+function arrayMax(arr) {
+  var len = arr.length, max = -Infinity;
+  while (len--) {
+    if (arr[len] > max) {
+      max = arr[len];
+    }
+  }
+  return max;
+};
+
+function startGame() {
+    myGameArea.start();
+    myGamePiece = new component(3, 3, "red", 10, 12);
+}
+
+var myGameArea = {
+ 
+    start : function() {
+        document.getElementById("myCanvas").width = W;
+        document.getElementById("myCanvas").height = H;
+        this.context = document.getElementById("myCanvas").getContext("2d");
+        //document.body.insertBefore(document.getElementById("myCanvas"), document.body.childNodes[0]);
+    }
+}
+
+function component(width, height, color, x, y) {
+    this.width = width;
+    this.height = height;
+    this.x = x;
+    this.y = y;    
+    ctx = myGameArea.context;
+    ctx.fillStyle = color;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+}
+
+function drawLine(x1,y1,x2,y2){
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	ctx.beginPath();
+	ctx.moveTo(x1, y1);
+	ctx.lineTo(x2, y2);
+	ctx.stroke();
+}
+
+function drawGrid(xmin,xmax,ymin,ymax){
+	;
+}
+
+function myFunction() {
+
+  var x = document.getElementById("demo");
+  var str = document.getElementById("dataBox1").value;
+  var res = str.split(/\n/); 
+    myGameArea.start();
+    //myGamePiece = new component(10, 10, "red", 10, 12);
+	var arrayLength = res.length;
+	var vScale = (H-30)/(arrayMax(res) - arrayMin(res));
+	var hScale = (W-20)/arrayLength;
+	var dotSize = hScale/3;	
+	
+	
+	for (var i = 0; i < arrayLength; i++) {
+		myGamePiece = new component(dotSize, dotSize, "red", hScale*i, (H-10)+vScale*arrayMin(res)-vScale*res[i]);
+		if(i < arrayLength - 1) {
+			drawLine(hScale*i+dotSize/2,(H-10)+vScale*arrayMin(res)-vScale*res[i]+dotSize/2,hScale*(i+1)+dotSize/2,(H-10)+vScale*arrayMin(res)-vScale*res[i+1]+dotSize/2)
+		}
+		if((i < arrayLength - 4) && (i > 3)){
+			myGamePiece = new component(dotSize, dotSize, "yellow", hScale*i, (H-10)+vScale*arrayMin(res)-vScale*(parseInt(res[i])+parseInt(res[i+1])+parseInt(res[i+2])+parseInt(res[i+3])+parseInt(res[i-3])+parseInt(res[i-2])+parseInt(res[i-1]))/7);
+			console.log(parseInt(res[i])+parseInt(res[i+1]));
+		}
+    		
+    		//Do something
+	}  
+
+  if (buttonToggle == 4){
+    x.style.fontSize = "25px";
+    buttonToggle = 5
+  }else{
+    buttonToggle = 4
+    x.style.fontSize = "15px";
+    
+  }
+  x.style.color = "red";
+}
+
+
+function dataBoxFocus(){	
+	if (document.getElementById("dataBox1").value.trim() == "Input data here."){
+		document.getElementById("dataBox1").value = "";
+	}
+}
+
+
+
+</script>
+
+
+
+<h1>Graph</h1>
+
+<textarea onClick="dataBoxFocus()" name="message" id="dataBox1" rows="50" cols="20">
+Input data here.
+</textarea>
+
+<canvas id="myCanvas" width="800px" height="400px" style="border:2px solid #ffffff;"></canvas>
+
+<button id="demo" onclick="myFunction()">Graph</button>
+
+</body>
+</html>

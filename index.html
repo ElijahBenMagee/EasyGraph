@@ -5,64 +5,9 @@
 
 <body>
 
+<script src="js/graph.js"></script>
 <script>
-var buttonToggle = 4;
 
-var myGamePiece;
-
-function startGame() {
-    myGameArea.start();
-    myGamePiece = new component(3, 3, "red", 10, 12);
-}
-
-var myGameArea = {
- 
-    start : function() {
-        document.getElementById("myCanvas").width = 480;
-        document.getElementById("myCanvas").height = 270;
-        this.context = document.getElementById("myCanvas").getContext("2d");
-        //document.body.insertBefore(document.getElementById("myCanvas"), document.body.childNodes[0]);
-    }
-}
-
-function component(width, height, color, x, y) {
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;    
-    ctx = myGameArea.context;
-    ctx.fillStyle = color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
-}
-
-
-
-
-function myFunction() {
-
-  var x = document.getElementById("demo");
-  var str = document.getElementById("dataBox1").value;
-  var res = str.split(/\n/); 
-    myGameArea.start();
-    //myGamePiece = new component(10, 10, "red", 10, 12);
-	var arrayLength = res.length;
-	for (var i = 0; i < arrayLength; i++) {
-		myGamePiece = new component(10, 10, "red", 20*i, 270-res[i]);
-
-    		console.log(res[i]);
-    		//Do something
-	}  
-
-  if (buttonToggle == 4){
-    x.style.fontSize = "25px";
-    buttonToggle = 5
-  }else{
-    buttonToggle = 4
-    x.style.fontSize = "15px";
-    
-  }
-  x.style.color = "red";
-}
 
 
 function dataBoxFocus(){	
