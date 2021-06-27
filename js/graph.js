@@ -2,7 +2,7 @@
 var W = 1000
 var H = 500
 var buttonToggle = 4;
-
+var graph;
 var currentPoint;
 
 
@@ -25,6 +25,20 @@ function sumPower(arr,pwr){
 	return runningSum;
 }
 
+function standardDev(x){
+	var avrg = 0;	
+	var s = 0;	
+	for(i=0; i<x.length; i++){
+		avrg += x[i];
+	}
+	avrg/=x.length
+	for(i=0; i<x.length; i++){
+		s+= (x[i]-avrg)**2;
+	}
+	return (s/(x.length-1))**0.5;
+}
+
+
 function arrayMax(arr) {
   var len = arr.length, max = -Infinity;
   while (len--) {
@@ -43,6 +57,14 @@ function drawSquarePoint(width, height, color, x, y) {
     ctx = graphCanvas.context;
     ctx.fillStyle = color;
     ctx.fillRect(this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+}
+
+function drawCircle(rad, color, x, y) {
+    ctx = graphCanvas.context;
+	 ctx.beginPath();
+	 ctx.strokeStyle = color;
+    ctx.arc(x,y,rad,0,2*Math.PI);
+    ctx.stroke();
 }
 
 function drawText(text,x,y,size,color='#000000'){
@@ -120,14 +142,18 @@ var timeGraph = {
 		this.linearTrend(xValues,yValues)
 	
 	},
+	
     
    linearTrend : function(x,y){
    		var sumBoth = 0;
 		   var a = 0;
 		   var b = 0;
+		   var noise = [];
+		   var s = 0;
 		   for (i = 0; i < x.length; i++){
 		   	sumBoth += x[i]*y[i]
 		   }
+		   
 		   
 			a = (sumPower(y,1)*sumPower(x,2)-sumPower(x,1)*sumBoth)/(x.length*sumPower(x,2)-sumPower(x,1)**2);
 		   b = (x.length*sumBoth-sumPower(x,1)*sumPower(y,1))/(x.length*sumPower(x,2)-sumPower(x,1)**2);
@@ -136,6 +162,16 @@ var timeGraph = {
    		console.log(a,b,xInt,yInt,sumPower(y,1),sumPower(y,2),sumBoth)
    		drawLine(this.xdtc(0),this.ydtc(yInt),this.xdtc(xInt),this.ydtc(this.resMin),3,'orange');
    		drawText("y = "+Math.round(b * 10) / 10+"x + "+Math.round(a * 10) / 10, W/2-30,20,20,'orange')
+   		for (i = 0; i < x.length; i++){
+		   	noise[i] = y[i] - (b*x[i]+a) 
+		   }
+		   s = standardDev(noise)
+			console.log(s)		   
+		   for (i = 0; i < x.length; i++){
+		   	if (Math.abs(y[i] - (b*x[i]+a)) > 2*s){
+		   		drawCircle(8,"black",this.xdtc(i), this.ydtc(y[i]))
+		   	}
+		   }
    },
    
 	drawGrid : function(){
@@ -161,8 +197,12 @@ var timeGraph = {
 		return (H-this.ySpace)+this.vScale*this.resMin-this.vScale*y1;
 	}
 }
+function graphHover(){
+	graph.hover();
+}
 
 function myFunction() {
- 	timeGraph.start();
+ 	graph = timeGraph;
+ 	graph.start();
  
 }
