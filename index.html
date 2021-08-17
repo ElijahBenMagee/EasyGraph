@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
+<head>
 <title>EasyGraph</title>
 <link rel="stylesheet" href="lib/style.css">
 
-<body>
 
 <script src="js/graph.js"></script>
+<script src="js/layout.js"></script>
+
 <script>
 
 
@@ -20,17 +22,103 @@ function dataBoxFocus(){
 
 </script>
 
+</head>
+<body>
+
+<div class="topnav">
+  <a class="logo" style="margin-right: 20px; font-style: italic;">EasyGraph</a>
+  <a class="active" id="home" onclick="clickHome()">Home</a>
+  <a class="other" id="examples" onclick="clickExamples()">Examples</a>
+  <a class="other" id="settings"  onclick="clickSettings()">Settings</a>
+  <a class="other" id="help"  onclick="clickHelp()">Help</a>
+</div>
 
 
-<h1>Graph</h1>
+<div class="menu" id ='menuhome'>
+	<div onclick="myFunction()">
+  <p>Graph</p>
+	</div>
+	<div>  
+  <p onclick="myFunction()">Download Data</p>
+  </div>
+  <div>
+  <p onclick="myFunction()">Upload Data</p>
+  </div>
+  <div>
+  <p onclick="myFunction()">Set Graph Type</p>
+	</div>
+</div>
 
-<textarea onClick="dataBoxFocus()" name="message" id="dataBox1" rows="50" cols="20">
-Input data here.
-</textarea>
+<div class="menuHidden"  id ='menuexamples'>
+	<div onclick="loadStatesData()">
+  <p>States X-Y</p>
+	</div>
+	
+	<div>  
+  <p onclick="loadWeightsData()">Weight (Time Graph)</p>
+  </div>  
+  
+  <div>
+  <p onclick="myFunction()">Budget Deficit/Giving</p>
+  </div>
+ 
+  <div>
+  <p onclick="myFunction()">Stock Predictions</p>
+	</div>
+</div>
 
-<canvas id="myCanvas" width="800px" height="400px" style="border:2px solid #ffffff;"></canvas>
+<div class="menuHidden"  id ='menusettings'>
+	<div onclick="myFunction()">
+  <p>Entry Errors</p>
+	</div>
+	<div>  
+  <p onclick="myFunction()">Change Graph Type</p>
+  </div>
+  <div>
+  <p onclick="myFunction()">Style</p>
+  </div>
+  <div>
+  <p onclick="myFunction()">Interpretation</p>
+	</div>
+</div>
 
-<button id="demo" onclick="myFunction()">Graph</button>
+<div class="menuHidden"  id ='menuhelp'>
+	<div onclick="myFunction()">
+  <p>Docs</p>
+	</div>
+	<div>  
+  <p onclick="myFunction()">Contact</p>
+  </div>
+  <div>
+  <p onclick="myFunction()">References</p>
+  </div>
+  <div>
+  <p onclick="myFunction()">License</p>
+	</div>
+</div>
+
+<div class="flex-container">
+
+  <div class="flex-child magenta">
+    <div id='data' class="data" name="data">	
+		<div>
+		<textarea onClick="dataBoxFocus()" name="dataBox1" id="dataBox1" rows="50" cols="50">Input data here.
+		</textarea>
+		</div>
+	</div>
+    
+  </div>
+  
+  <div class="flex-child green">
+   	<div id='data' class="data" name="graph">
+		<div>
+		<canvas id="myCanvas" width="800" height="700px" style="border:2px solid #ffffff;"></canvas>
+		</div>
+		</div>
+  </div>
+  
+</div>
+
 
 </body>
 </html>

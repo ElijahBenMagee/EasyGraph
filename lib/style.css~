@@ -146,7 +146,7 @@ canvas{
 
 textarea{
 	background-color: #aaaaff;
-
+	border-width: 20px;
 	border-radius: 20px;
 	border-color: #aaaaff;
 	border:2px dotted #00f
