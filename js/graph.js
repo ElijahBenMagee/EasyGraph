@@ -201,6 +201,7 @@ var timeGraph = {
 			drawText(parseInt(i*xStep),this.xdtc(i*xStep)-6,H-12,12)
 		}
 	},
+	
 	xdtc : function(x1){
 		return this.hScale*x1+this.xSpace;
 	},	
@@ -245,6 +246,8 @@ var plotGraph = {
 		this.yCenters = [];
 		clusters = this.cluster(3)
 		
+		
+		this.drawGrid();
 		//console.log(clusters)
 		for (var i = 0; i < arrayLength; i++) {
 			//console.log(this.xdtc(this.xValues[i]), this.ydtc(this.yValues[i]))
@@ -272,6 +275,28 @@ var plotGraph = {
 			currentPoint = new drawSquarePoint(this.dotSize+20, this.dotSize+20, '#'+color.join(''), this.xdtc(this.xCenters[i]), this.ydtc(this.yCenters[i]));
 		}
 	
+	},
+	
+	drawGrid : function(){
+		var vRange = (H-this.xSpace)/this.vScale; 	
+		
+		var xNum  = 8
+		var yNum = 5
+		var yStep = (H-this.ySpace)/yNum;
+		var xStep = (W-this.xSpace)/xNum;
+		
+		for(var i = 0; i < yNum+1; i++){
+			drawLine(this.xSpace,i*yStep,W,i*yStep)
+			//drawText(Math.round((parseFloat(this.xMin)+parseFloat(i*step))*10)/10,5,this.ydtc(parseFloat(this.xMin)+parseFloat(i*step))+6, 12)
+			//console.log(parseFloat(this.resMin)+parseFloat(i*step))
+			//console.log(vRange)	
+			//console.log(H)
+		}
+		for (var i = 0; i < xNum+1; i++){
+			drawLine(i*xStep+this.xSpace, H-this.ySpace, i*xStep+this.xSpace,0);
+			drawText(parseInt(this.ixdtc(i*xStep+this.xSpace)),i*xStep+this.xSpace-6,H-12,12)
+		
+		}
 	},
 		
 	cluster : function(c){	
@@ -344,7 +369,18 @@ var plotGraph = {
 	},	
 	ydtc : function(y1){
 		return (H-this.ySpace)+this.vScale*this.yMin-this.vScale*parseFloat(y1);
+	},
+	
+	ixdtc : function(x1){
+		return (x1-this.xSpace)/((W-this.xSpace)/this.xSpan) + this.xMin;
+		//return this.xSpace+(parseFloat(x1)-this.xMin)*(W-this.xSpace)/this.xSpan
+		
+	},	
+	iydtc : function(y1){
+		return (H-this.ySpace)+this.vScale*this.yMin-this.vScale*parseFloat(y1);
 	}
+	
+	
 }
 
 
